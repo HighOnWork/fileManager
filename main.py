@@ -4,6 +4,7 @@ from graphics import FileManagerApp
 def main():
     app = FileManagerApp()
     app.titleBar()
+    # app.settingsButton()
     choosenTheme = app.themeMenu()
     app.changingTheme(choosenTheme)
     app.applyingTheme(choosenTheme)
