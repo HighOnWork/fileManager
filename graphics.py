@@ -3,6 +3,7 @@ import tkinter as tk
 from theme import Theme
 
 stored_exitButton = None
+stored_settingsButton = None
 
 width = 800
 height = 600
@@ -30,10 +31,14 @@ class FileManagerApp:
 
         self.root.title("Zenith")
 
-        # Removing the title bar and borders of the window to create a frameless window
+        #Removing the title bar and borders of the window to create a frameless window
         self.root.overrideredirect(True)
 
+        #Creating the title bar and its components.
         self.title_bar = tk.Frame(self.canvas, bg="gray", relief='raised', bd=1)
+        self.title_label = tk.Label(self.title_bar, text="Zenth", bg="gray", fg="white")
+
+        self.text = tk.Text(master=self.canvas)
 
 
         #Initialize the theme from the theme module
@@ -46,13 +51,12 @@ class FileManagerApp:
         self.title_bar.grid_columnconfigure(0, weight=1)
         self.title_bar.grid(row=0, column=0, columnspan=3, sticky='ew')
 
-        title_label = tk.Label(self.title_bar, text="Zenth", bg="gray", fg="white")
-        title_label.grid(row=0, column=0, sticky='w', padx=10)
+        self.title_label.grid(row=0, column=0, sticky='w', padx=10)
 
         self.title_bar.bind("<Button-1>", self.start_move)
         self.title_bar.bind("<B1-Motion>", self.do_move)
-        title_label.bind("<Button-1>", self.start_move)
-        title_label.bind("<B1-Motion>", self.do_move)
+        self.title_label.bind("<Button-1>", self.start_move)
+        self.title_label.bind("<B1-Motion>", self.do_move)
 
     #############################################TASKBAR BUTTONS###########################################################
     def exitButton(self):
@@ -96,7 +100,16 @@ class FileManagerApp:
         '''
         Settings button that leads to the theme window.
         '''
-        sButton = tk.Button(self.canvas, image="./Assets/gear.png").grid(row=2, column=2)
+        btn_image = self.convertImage(file_path="./Assets/gear_shrinked.png")
+        sButton = tk.Button(master=self.canvas, 
+                            image=btn_image,
+                            relief="flat",
+                            borderwidth=0,
+                            highlightthickness=0,
+                            bg="gray",
+                            command=self.openSettings)
+        sButton.image = btn_image
+        sButton.grid(row=4, column=2, padx=5, pady=5)
 
     ##########################################MOVING THE TASKBAR AROUND#####################################################
 
@@ -140,7 +153,14 @@ class FileManagerApp:
         Ran once at the start and then when the "Apply" button is clicked. Changes the app's theme based on the selected theme from the dropdown menu.
         '''
         selectedTheme = theme.get().capitalize()
+        #Changing the theme of canvas
         self.canvas.configure(bg=self.theme.themes[selectedTheme]["background"])
+        #Changing the theme of the title bar and its components.
+        self.title_bar.config(bg=self.theme.themes[selectedTheme]["background"])
+        self.title_label.config(fg=self.theme.themes[selectedTheme]["foreground"], bg=self.theme.themes[selectedTheme]['background'])
+
+        self.text.config(fg=self.theme.themes[selectedTheme]["foreground"], bg=self.theme.themes[selectedTheme]["background"])
+        
 
     #############################################IMAGE CONVERSION###########################################################
     def convertImage(self, file_path):
@@ -152,8 +172,14 @@ class FileManagerApp:
 
     #############################################SHOW FILES###########################################################
     def showFiles(self):
-        text = tk.Text(master=self.canvas)
-        text.grid(column=2, row=3)
-        text.insert("1.0", filesAndFolders.showFiles())
+        self.text.grid(column=1, row=3)
+        self.text.config(borderwidth=0)
+        self.text.insert("1.0", filesAndFolders.showFiles())
     
+    #############################################SHOW FILES###########################################################
+    def openSettings(self):
+        settings_window = tk.Toplevel(self.root)
+        settings_window.title("Settings")
+        settings_window.geometry("400x400")
+        
     
