@@ -1,0 +1,4 @@
+Formatting required again
+Automatic theme settings for everything
+A new theme color for taskbar
+resizing of windows instead of hardcoded resolution needed

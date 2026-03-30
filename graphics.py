@@ -1,3 +1,4 @@
+import filesAndFolders
 import tkinter as tk
 from theme import Theme
 
@@ -63,12 +64,33 @@ class FileManagerApp:
         exit_button = tk.Button(
             master=self.title_bar,
             image=btn_img,
+            relief="flat",
+            borderwidth=0,
+            highlightthickness=0,
+            bg="gray",
             command=self.root.destroy
         )
+
+        def on_enter(event):
+            '''
+            Visual signal for when the cursor hovers over the exit button.
+            '''
+            exit_button.config(relief="raised", bg="#505050")
         
+        def on_leave(event):
+            '''
+            Resets the button when the cursor leaves the exit button.
+            '''
+            exit_button.config(relief="flat", bg="gray")
+        
+        #Appointing the on_enter and on_leave function to the exit button.
+        exit_button.bind("<Enter>", on_enter)
+        exit_button.bind("<Leave>", on_leave)
+        
+        #Saving the button in a local variable so python doesn't dump it.
         exit_button.image = btn_img 
         
-        exit_button.grid(row=0, column=1, sticky='w', padx=5)
+        exit_button.grid(row=0, column=1, sticky='w', padx=5, pady=5)
     
     def settingsButton(self):
         '''
@@ -128,5 +150,10 @@ class FileManagerApp:
         converted_photo = tk.PhotoImage(file=file_path)
         return converted_photo
 
+    #############################################SHOW FILES###########################################################
+    def showFiles(self):
+        text = tk.Text(master=self.canvas)
+        text.grid(column=2, row=3)
+        text.insert("1.0", filesAndFolders.showFiles())
     
     
