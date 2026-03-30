@@ -1,4 +1,4 @@
-Formatting required again
-Automatic theme settings for everything
-A new theme color for taskbar
+Modulariy {
+    canvas, titlebar, titlename, exit button, hover and on_exit buttons
+}
 resizing of windows instead of hardcoded resolution needed

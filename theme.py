@@ -1,6 +1,4 @@
 class Theme:
-    
-
     def __init__(self):
 
         self.defaultTheme = "Dark"

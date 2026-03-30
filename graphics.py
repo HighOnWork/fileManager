@@ -38,35 +38,35 @@ class FileManagerApp:
         self.title_bar = tk.Frame(self.canvas, bg="gray", relief='raised', bd=1)
         self.title_label = tk.Label(self.title_bar, text="Zenth", bg="gray", fg="white")
 
+        #Creating the text box for viewing files and folders
         self.text = tk.Text(master=self.canvas)
-
 
         #Initialize the theme from the theme module
         self.theme = Theme()
 
-    def titleBar(self):
+    def titleBar(self, title_bar, title_label):
         '''
         Creating a Custom title bar for Zenith and appointing mouse buttons for it 
         '''
-        self.title_bar.grid_columnconfigure(0, weight=1)
-        self.title_bar.grid(row=0, column=0, columnspan=3, sticky='ew')
+        title_bar.grid_columnconfigure(0, weight=1)
+        title_bar.grid(row=0, column=0, columnspan=3, sticky='ew')
 
-        self.title_label.grid(row=0, column=0, sticky='w', padx=10)
+        title_label.grid(row=0, column=0, sticky='w', padx=10)
 
-        self.title_bar.bind("<Button-1>", self.start_move)
-        self.title_bar.bind("<B1-Motion>", self.do_move)
-        self.title_label.bind("<Button-1>", self.start_move)
-        self.title_label.bind("<B1-Motion>", self.do_move)
+        title_bar.bind("<Button-1>", self.start_move)
+        title_bar.bind("<B1-Motion>", self.do_move)
+        title_label.bind("<Button-1>", self.start_move)
+        title_label.bind("<B1-Motion>", self.do_move)
 
     #############################################TASKBAR BUTTONS###########################################################
-    def exitButton(self):
+    def exitButton(self, title_bar):
         '''
         The exit button for the title bar
         '''
         btn_img = self.convertImage(file_path="./Assets/button_shrinked.png")
         
         exit_button = tk.Button(
-            master=self.title_bar,
+            master=title_bar,
             image=btn_img,
             relief="flat",
             borderwidth=0,
@@ -178,8 +178,13 @@ class FileManagerApp:
     
     #############################################SHOW FILES###########################################################
     def openSettings(self):
-        settings_window = tk.Toplevel(self.root)
-        settings_window.title("Settings")
-        settings_window.geometry("400x400")
-        
+        #Creating the settings window
+        self.settings_window = tk.Toplevel(self.root)
+        self.settings_window.title("Settings")
+        self.settings_window.geometry(f"{width}x{height}")
+        self.settings_window.overrideredirect(True)
+        self.diffCanvas = tk.Canvas(self.settings_window, width=width, height=height)
+        self.settings_title_bar = tk.Frame(self.diffCanvas, bg="gray", relief='raised', bd=1)
+        self.settings_title_label = tk.Label(self.title_bar, text="Settings", bg="gray", fg="white")
+
     
